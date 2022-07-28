@@ -24,6 +24,7 @@ class User(db.Model):
     posts = db.relationship('Post', backref='author')
 
 db.create_all()
+
 @app.route("/")
 def index():
     posts = Post.query.all()
@@ -31,11 +32,11 @@ def index():
 
 @app.route("/populate")
 def populate():
-    user = User(username='Oliveira', email='oliveira.ikaro@outlook.com', password_hash='a')
-    post1 = Post(title="Post 1", body = "Texto do Post 1", author = "Oliveira")
-    post2 = Post(title="Post 2", body = "Texto do Post 2", author = "Oliveira")
+    user = User(username='Oliveira', email="oliveira.ikaro@outlook.com", password_hash='a')
+    post1 = Post(title="Post 1", body = "Texto do Post 1", author = user)
+    post2 = Post(title="Post 2", body = "Texto do Post 2", author = user)
     db.session.add(user)
     db.session.add(post1)
     db.session.add(post2)
     db.session.commit()
-    return redirect(url_for("index"))
+    return redirect(url_for('index'))
